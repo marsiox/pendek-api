@@ -9,6 +9,7 @@ gem 'rails', '~> 5.1.3'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
+gem 'factory_girl_rails', '~> 4.7'
 gem 'faker'
 
 group :development, :test do
