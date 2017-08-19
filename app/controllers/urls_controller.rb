@@ -11,12 +11,13 @@ class UrlsController < ApplicationController
   end
 
   def create
-    @url = Url.new(url_params)
+    service = CreateShortUrl.new(url_params)
+    response = service.run
 
-    if @url.save
-      render json: @url, status: :created, location: @url
+    if service.errors.empty?
+      render json: response, status: :created, adapter: :json_api
     else
-      render json: @url.errors, status: :unprocessable_entity
+      render json: service.errors.messages, status: :unprocessable_entity, adapter: :json_api
     end
   end
 
@@ -27,6 +28,6 @@ class UrlsController < ApplicationController
     end
 
     def url_params
-      params.fetch(:url, {})
+      params.fetch(:data, {})
     end
 end
