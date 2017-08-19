@@ -7,7 +7,15 @@ class UrlsController < ApplicationController
   end
 
   def show
-    render json: @url, adapter: :json_api
+    service = CreateSession.new(request.headers, @url)
+    response = service.run
+
+    if service.errors.empty?
+      render json: @url, adapter: :json_api
+    else
+      render json: service.errors.messages, status: :unprocessable_entity, adapter: :json_api
+    end
+
   end
 
   def create

@@ -4,6 +4,7 @@ RSpec.describe UrlsController, type: :controller do
 
   let(:session) {create(:session)}
   let!(:urls) { create_list(:url, 10) }
+  let(:url) { urls.first }
   let(:valid_parameters) {
     {
       data: {
@@ -11,19 +12,10 @@ RSpec.describe UrlsController, type: :controller do
       }
     }
   }
-  let(:valid_headers) {
-    {
-      user: {
-        session_id: SecureRandom.hex,
-        ip_address: Faker::Internet.ip_v4_address,
-        http_referer: Faker::Internet.url('testreferer.com')
-      }
-    }
-  }
 
   describe "GET #index" do
     it "returns the list of urls" do
-      get :index, params: { headers: valid_headers }
+      get :index, params: {}
       expect(response.status).to eq 200
       expect(response).to match_response_schema("url_list")
     end
@@ -34,6 +26,18 @@ RSpec.describe UrlsController, type: :controller do
       get :show, params: { id: urls.first.short }
       expect(response.status).to eq 200
       expect(response).to match_response_schema("url")
+    end
+
+    it "saves session in db" do
+      @request.headers["User-Session-Id"] = SecureRandom.hex
+      @request.headers["User-Ip-Addr"] = Faker::Internet.ip_v4_address
+      @request.headers["User-Referer"] = Faker::Internet.url('testreferer.com')
+      @request.headers["User-Agent"] = Faker::Internet.user_agent
+
+      get :show, params: { id: urls.first.short }
+
+      expect(url.sessions).not_to be_empty
+      expect(url.sessions.last.user_session_id).to eq @request.headers["User-Session-Id"]
     end
   end
 
