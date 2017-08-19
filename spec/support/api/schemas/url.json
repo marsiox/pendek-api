@@ -12,9 +12,11 @@
           "properties": {
             "full": { "type": "string" },
             "short": { "type": "string" },
-            "created-at" : { "type" : "string", "format": "date-time" }
+            "created-at" : { "type": "string", "format": "date-time" },
+            "sessions": { "type": "array" }
           }
-        }
+        },
+        "relationships": { "type": "object" }
       }
     }
   }

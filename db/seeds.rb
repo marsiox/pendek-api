@@ -1,17 +1,18 @@
-sessions = []
-20.times do
-  sessions << Session.create({
-    user_session_id: SecureRandom.hex,
-    ip_address: Faker::Internet.ip_v4_address,
-    http_referer: Faker::Internet.url('testreferer.com'),
-    user_agent: Faker::Internet.user_agent
-  })
-end
+urls = []
 
-100.times do
-  Url.create(
-    session_id: sessions[rand(sessions.count)].id,
+50.times do
+  urls << Url.create(
     full: Faker::Internet.url,
     short: Pendek::ShortURL.print
   )
+end
+
+200.times do
+  Session.create({
+    user_session_id: SecureRandom.hex,
+    ip_address: Faker::Internet.ip_v4_address,
+    http_referer: Faker::Internet.url('testreferer.com'),
+    user_agent: Faker::Internet.user_agent,
+    url: urls[rand(urls.count)]
+  })
 end

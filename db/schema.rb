@@ -15,17 +15,23 @@ ActiveRecord::Schema.define(version: 20170818105212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "url_id"
+    t.string "user_session_id"
+    t.string "ip_address"
+    t.string "http_referer"
+    t.string "user_agent"
+    t.datetime "created_at"
+    t.index ["url_id"], name: "index_sessions_on_url_id"
+    t.index ["user_session_id"], name: "index_sessions_on_user_session_id"
+  end
+
   create_table "urls", force: :cascade do |t|
     t.string "full"
     t.string "short"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["short"], name: "index_urls_on_short"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
