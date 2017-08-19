@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "full": { "type": "string" },
+            "short": { "type": "string" },
+            "created-at" : { "type" : "string", "format": "date-time" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,3 @@
 class UrlSerializer < ActiveModel::Serializer
-  attributes :id, :full, :short, :created_at
+  attributes :full, :short, :created_at
 end

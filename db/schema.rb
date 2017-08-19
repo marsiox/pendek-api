@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20170818105212) do
     t.string "short"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["short"], name: "index_urls_on_short"
   end
 
   create_table "users", force: :cascade do |t|
