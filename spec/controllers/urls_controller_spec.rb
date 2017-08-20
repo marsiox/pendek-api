@@ -22,23 +22,32 @@ RSpec.describe UrlsController, type: :controller do
   end
 
   describe "GET #show" do
-    before do
-      @request.headers["User-Session-Id"] = SecureRandom.hex
-      @request.headers["User-Ip-Addr"] = Faker::Internet.ip_v4_address
-      @request.headers["User-Referer"] = Faker::Internet.url('testreferer.com')
-      @request.headers["User-Agent"] = Faker::Internet.user_agent
-    end
-    it "returns single url" do
-      get :show, params: { id: urls.first.short }
-      expect(response.status).to eq 200
-      expect(response).to match_response_schema("url")
+    context "with valid headers" do
+      before do
+        @request.headers["User-Session-Id"] = SecureRandom.hex
+        @request.headers["User-Ip-Addr"] = Faker::Internet.ip_v4_address
+        @request.headers["User-Referer"] = Faker::Internet.url('testreferer.com')
+        @request.headers["User-Agent"] = Faker::Internet.user_agent
+      end
+      it "returns single url" do
+        get :show, params: { id: urls.first.short }
+        expect(response.status).to eq 200
+        expect(response).to match_response_schema("url")
+      end
+
+      it "saves session in db" do
+        get :show, params: { id: urls.first.short }
+
+        expect(url.sessions).not_to be_empty
+        expect(url.sessions.last.user_session_id).to eq @request.headers["User-Session-Id"]
+      end
     end
 
-    it "saves session in db" do
-      get :show, params: { id: urls.first.short }
-
-      expect(url.sessions).not_to be_empty
-      expect(url.sessions.last.user_session_id).to eq @request.headers["User-Session-Id"]
+    context "with no headers" do
+      it "returns error" do
+        get :show, params: { id: urls.first.short }
+        expect(response.status).to eq 422
+      end
     end
   end
 
@@ -49,6 +58,13 @@ RSpec.describe UrlsController, type: :controller do
         post :create, params: valid_parameters
         expect(response.status).to eq 201
         expect(response).to match_response_schema("url")
+      end
+    end
+
+    context "with invalid parameters" do
+      it "returns error" do
+        post :create, params: {}
+        expect(response.status).to eq 422
       end
     end
 
