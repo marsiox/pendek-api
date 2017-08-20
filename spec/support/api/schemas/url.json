@@ -1,6 +1,4 @@
 {
-  "type": "object",
-  "required": ["data"],
   "properties": {
     "data": {
       "type": "object",
@@ -11,19 +9,7 @@
           "type": "object",
           "properties": {
             "full": { "type": "string" },
-            "short": { "type": "string" },
-            "created-at" : { "type": "string", "format": "date-time" }
-          }
-        },
-        "relationships": {
-          "type": "object",
-          "properties": {
-            "sessions": {
-              "type": "object",
-              "properties": {
-                "data": { "type": "array" }
-              }
-            }
+            "short": { "type": "string" }
           }
         }
       }

@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "type": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "full": { "type": "string" },
+            "short": { "type": "string" },
+            "stats": {
+              "type": "object",
+              "properties": {
+                "all_visits": { "type": "integer" },
+                "by_http_referer": { "type": "array" },
+                "last_visits": { "type": "array" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
