@@ -9,13 +9,14 @@ class CreateSession
 
   def run
     session = Session.new
+
     session.user_session_id = @request_headers["User-Session-Id"]
     session.ip_address = @request_headers["User-Ip-Addr"]
     session.http_referer = @request_headers["User-Referer"]
     session.user_agent = @request_headers["User-Agent"]
     session.url = @url
     session.save
-    session if session.persisted?
+    session
   end
 
 end

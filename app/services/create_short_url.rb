@@ -11,7 +11,7 @@ class CreateShortUrl
     url.full = @params["full"]
     url.short = Pendek::ShortURL.print
     url.save
-    url if url.persisted?
+    url
   end
 
 end

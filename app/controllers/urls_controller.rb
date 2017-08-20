@@ -10,10 +10,10 @@ class UrlsController < ApplicationController
     service = CreateSession.new(request.headers, @url)
     response = service.run
 
-    if service.errors.empty?
+    if response.errors.empty?
       render json: @url, adapter: :json_api
     else
-      render json: service.errors.messages, status: :unprocessable_entity, adapter: :json_api
+      render json: response.errors, status: :unprocessable_entity, adapter: :json_api
     end
 
   end
@@ -22,10 +22,10 @@ class UrlsController < ApplicationController
     service = CreateShortUrl.new(url_params)
     response = service.run
 
-    if service.errors.empty?
+    if response.errors.empty?
       render json: response, status: :created, adapter: :json_api
     else
-      render json: service.errors.messages, status: :unprocessable_entity, adapter: :json_api
+      render json: response.errors, status: :unprocessable_entity, adapter: :json_api
     end
   end
 

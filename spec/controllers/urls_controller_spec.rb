@@ -22,6 +22,12 @@ RSpec.describe UrlsController, type: :controller do
   end
 
   describe "GET #show" do
+    before do
+      @request.headers["User-Session-Id"] = SecureRandom.hex
+      @request.headers["User-Ip-Addr"] = Faker::Internet.ip_v4_address
+      @request.headers["User-Referer"] = Faker::Internet.url('testreferer.com')
+      @request.headers["User-Agent"] = Faker::Internet.user_agent
+    end
     it "returns single url" do
       get :show, params: { id: urls.first.short }
       expect(response.status).to eq 200
@@ -29,11 +35,6 @@ RSpec.describe UrlsController, type: :controller do
     end
 
     it "saves session in db" do
-      @request.headers["User-Session-Id"] = SecureRandom.hex
-      @request.headers["User-Ip-Addr"] = Faker::Internet.ip_v4_address
-      @request.headers["User-Referer"] = Faker::Internet.url('testreferer.com')
-      @request.headers["User-Agent"] = Faker::Internet.user_agent
-
       get :show, params: { id: urls.first.short }
 
       expect(url.sessions).not_to be_empty
