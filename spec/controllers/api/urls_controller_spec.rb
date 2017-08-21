@@ -12,6 +12,13 @@ RSpec.describe Api::UrlsController, type: :controller do
       }
     }
   }
+  let(:invalid_parameters) {
+    {
+      data: {
+        full: 'badurl'
+      }
+    }
+  }
 
   describe "GET #index" do
     it "returns the list of urls" do
@@ -42,6 +49,13 @@ RSpec.describe Api::UrlsController, type: :controller do
     end
 
     context "with invalid parameters" do
+      it "returns error" do
+        post :create, params: :invalid_parameters
+        expect(response.status).to eq 422
+      end
+    end
+
+    context "with no parameters" do
       it "returns error" do
         post :create, params: {}
         expect(response.status).to eq 422
