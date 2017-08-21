@@ -17,7 +17,7 @@ class Api::UrlsController < ApplicationController
     if response.errors.empty?
       render json: response, status: :created, adapter: :json_api, key_transform: :underscore
     else
-      render json: response.errors, status: :unprocessable_entity, adapter: :json_api
+      render json: ErrorSerializer.serialize(response.errors), status: :unprocessable_entity
     end
   end
 
