@@ -8,8 +8,8 @@
         "attributes": {
           "type": "object",
           "properties": {
-            "full": { "type": "string" },
-            "short": { "type": "string" }
+            "full_url": { "type": "string" },
+            "short_url": { "type": "string" }
           }
         }
       }

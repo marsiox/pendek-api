@@ -15,7 +15,7 @@ class Api::UrlsController < ApplicationController
     response = service.run
 
     if response.errors.empty?
-      render json: response, status: :created, adapter: :json_api
+      render json: response, status: :created, adapter: :json_api, key_transform: :underscore
     else
       render json: response.errors, status: :unprocessable_entity, adapter: :json_api
     end

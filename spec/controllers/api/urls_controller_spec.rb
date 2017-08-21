@@ -50,7 +50,7 @@ RSpec.describe Api::UrlsController, type: :controller do
 
     context "with invalid parameters" do
       it "returns error" do
-        post :create, params: :invalid_parameters
+        post :create, params: invalid_parameters
         expect(response.status).to eq 422
       end
     end
