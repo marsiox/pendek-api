@@ -14,7 +14,7 @@ class UrlStatSerializer < ActiveModel::Serializer
   end
 
   def by_referer
-    groupped = Session.where(url: object).group_by(&:http_referer)
+    groupped = Session.where(url: object).order(created_at: :desc).limit(100).group_by(&:http_referer)
     groupped.map { |k, v| { http_referer: k, visits: v.count } }
   end
 

@@ -2,7 +2,7 @@ class Api::UrlsController < ApplicationController
   before_action :set_url, only: [:show, :update, :destroy]
 
   def index
-    @urls = Url.all
+    @urls = Url.all.order(created_at: :desc).limit(50)
     render json: @urls, adapter: :json_api, key_transform: :underscore
   end
 
