@@ -3,7 +3,7 @@
     "data": {
       "type": "object",
       "properties": {
-        "id": { "type": "integer" },
+        "id": { "type": "string" },
         "type": { "type": "string" },
         "attributes": {
           "type": "object",

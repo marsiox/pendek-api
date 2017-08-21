@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
-  resources :urls
-  resources :stats, only: [:show]
+
+  namespace :api do
+    root to: "home#index"
+    resources :urls, only: [:index, :show, :create]
+  end
+
+  get "/", to: redirect('/api')
+  get "/:short", to: "redirections#index"
+
 end

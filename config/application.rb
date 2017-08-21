@@ -32,5 +32,6 @@ module PendekApi
 
     # Custom configuration
     config.x.short_url_length = 6
+    config.x.app_base_url = "http://pndk.id:3000/"
   end
 end

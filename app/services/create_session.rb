@@ -2,21 +2,19 @@ class CreateSession
   include Service
   include ActiveModel::Validations
 
-  def initialize(request_headers, url)
-    @request_headers = request_headers
+  def initialize(request, url)
+    @request = request
     @url = url
   end
 
   def run
-    session = Session.new
-
-    session.user_session_id = @request_headers["User-Session-Id"]
-    session.ip_address = @request_headers["User-Ip-Addr"]
-    session.http_referer = @request_headers["User-Referer"]
-    session.user_agent = @request_headers["User-Agent"]
-    session.url = @url
-    session.save
-    session
+    user_session = Session.new
+    user_session.url = @url
+    user_session.ip_address = @request.ip
+    user_session.http_referer = @request.referer
+    user_session.user_agent = @request.user_agent
+    user_session.save
+    user_session
   end
 
 end

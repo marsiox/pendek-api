@@ -1,4 +1,4 @@
-class UrlsController < ApplicationController
+class Api::UrlsController < ApplicationController
   before_action :set_url, only: [:show, :update, :destroy]
 
   def index
@@ -7,15 +7,7 @@ class UrlsController < ApplicationController
   end
 
   def show
-    service = CreateSession.new(request.headers, @url)
-    response = service.run
-
-    if response.errors.empty?
-      render json: @url, adapter: :json_api
-    else
-      render json: response.errors, status: :unprocessable_entity, adapter: :json_api
-    end
-
+    render json: @url, adapter: :json_api, serializer: UrlStatSerializer, key_transform: :underscore
   end
 
   def create
