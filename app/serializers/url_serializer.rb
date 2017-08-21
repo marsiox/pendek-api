@@ -1,7 +1,17 @@
 class UrlSerializer < ActiveModel::Serializer
-  attributes :full, :short
+  attributes :id, :full_url, :short_url
+  type 'url'
 
-  def short
+  def id
+    object.short
+  end
+
+  def short_url
     Rails.configuration.x.app_base_url + object.short
   end
+
+  def full_url
+    object.full
+  end
+
 end

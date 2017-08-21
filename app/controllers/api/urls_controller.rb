@@ -3,7 +3,7 @@ class Api::UrlsController < ApplicationController
 
   def index
     @urls = Url.all
-    render json: @urls, adapter: :json_api
+    render json: @urls, adapter: :json_api, key_transform: :underscore
   end
 
   def show
