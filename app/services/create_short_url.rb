@@ -7,10 +7,9 @@ class CreateShortUrl
   end
 
   def run
-    url = Url.new
-    url.full = @params[:full]
-    url.short = Pendek::ShortURL.print
-    url.save
+    url = Url.find_or_create_by(full: @params[:full]) do |u|
+      u.short = Pendek::ShortURL.print
+    end
     url
   end
 
