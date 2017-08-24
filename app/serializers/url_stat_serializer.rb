@@ -4,18 +4,21 @@ class UrlStatSerializer < ActiveModel::Serializer
   attributes :id, :full_url, :stats
 
   def stats
-    last_sessions = Session.where(url: object).order(created_at: :desc).limit(25)
+    last_sessions = object.sessions
+      .joins(:referer)
+      .order(created_at: :desc)
+      .limit(25)
+      .select(:id, :user_agent, :ip_address, "referers.url as http_referer", "sessions.created_at")
 
     {
-      all_visits: Session.where(url: object).count,
+      all_visits: object.visits.to_i,
       by_http_referer: by_referer,
       last_visits: last_sessions
     }
   end
 
   def by_referer
-    groupped = Session.where(url: object).order(created_at: :desc).limit(100).group_by(&:http_referer)
-    groupped.map { |k, v| { http_referer: k, visits: v.count } }
+    object.referers.map { |r| { http_referer: r.url, visits: Stat.where(referer: r, url: object).sum(:visits).to_i } }
   end
 
   def full_url
